@@ -8,7 +8,7 @@ This project is a Flask web application designed to help recruiters and hiring m
 
 The application takes one **Job Description (JD)** and a batch of **Resumes (CVs)** (in `.pdf`, `.docx`, or `.txt` format) and ranks them based on their relevance to the JD. It calculates a similarity score for each resume, allowing recruiters to instantly identify the most promising candidates.
 
-## ⚙️Core Logic & Methodology
+## Core Logic & Methodology
 
 The matching logic is built on a classic NLP information retrieval technique:
 
