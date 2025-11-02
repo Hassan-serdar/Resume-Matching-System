@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدقق السير الذاتية</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        /* A more modern looking header */
+        .card-header {
+            background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(52,170,255,1) 100%);
+        }
+    </style>
+</head>
+<body>
+    <main class="container mt-5">
+        <div class="card shadow-lg border-0 rounded-3">
+            <div class="card-header text-white text-center p-3 rounded-top-3">
+                <h2>أداة مطابقة السير الذاتية مع الوصف الوظيفي</h2>
+            </div>
+            <div class="card-body p-4 p-md-5">
+                <form id="matcherForm" method="POST" action="/matcher" enctype="multipart/form-data">
+                    
+                    <div class="mb-4">
+                        <label for="job_description" class="form-label"><strong>الوصف الوظيفي:</strong></label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="5" required placeholder="الصق الوصف الوظيفي هنا..."></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="resumes" class="form-label"><strong>ارفع السير الذاتية:</strong></label>
+                        <input type="file" class="form-control" id="resumes" name="resumes" multiple required accept=".pdf, .docx, .txt">
+                        <div class="form-text">يمكنك اختيار أكثر من ملف (PDF, DOCX, TXT).</div>
+                    </div>
+                    
+                    <button id="submitBtn" type="submit" class="btn btn-primary w-100 py-2">
+                        <span id="btn-text">طابق الآن</span>
+                        <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    </button>
+                </form>
+
+                {% if message %}
+                <div class="results mt-5">
+                    <hr>
+                    <h4 class="mb-3">{{ message }}</h4>
+                <ul class="list-group">
+                    {% for resume, score in results %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ resume }}
+                        <span class="badge bg-primary rounded-pill fs-6">
+                            {{ "%.2f"|format(score * 100) }}%
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>  
+              </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.getElementById('matcherForm').addEventListener('submit', function() {
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('btn-text').classList.add('d-none');
+            document.getElementById('spinner').classList.remove('d-none');
+        });
+    </script>
+</body>
+</html>
